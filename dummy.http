@@ -1,0 +1,7 @@
+# GET http://127.0.0.1:8000/api/data
+POST http://127.0.0.1:8000/api/dummy HTTP/1.1
+content-type:application/json
+
+{
+    "name":"henry"
+}

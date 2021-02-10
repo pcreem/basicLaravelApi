@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\dummy;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response as Res;
 
 class DummyController extends Controller
 {
@@ -35,7 +37,9 @@ class DummyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dummy = dummy::create($request->all());
+        $dummy = $dummy->refresh();
+        return response($dummy,Res::HTTP_CREATED);
     }
 
     /**
