@@ -84,6 +84,7 @@ class DummyController extends Controller
      */
     public function destroy(dummy $dummy)
     {
-        //
+        $dummy->delete();
+        return response(null, RES::HTTP_NO_CONTENT);
     }
 }
