@@ -16,7 +16,8 @@ class DummyController extends Controller
      */
     public function index()
     {
-        //
+        $dummy = dummy::get();
+        return response(['data' => $dummy], Res::HTTP_OK);
     }
 
     /**
