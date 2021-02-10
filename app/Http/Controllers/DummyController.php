@@ -73,7 +73,8 @@ class DummyController extends Controller
      */
     public function update(Request $request, dummy $dummy)
     {
-        //
+        $dummy->update($request->all());
+        return response($dummy,RES::HTTP_OK);
     }
 
     /**
