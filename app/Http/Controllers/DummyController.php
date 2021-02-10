@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\dummy;
+use App\Models\Dummy;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as Res;
@@ -16,7 +16,7 @@ class DummyController extends Controller
      */
     public function index()
     {
-        $dummy = dummy::get();
+        $dummy = Dummy::get();
         return response(['data' => $dummy], Res::HTTP_OK);
     }
 
@@ -38,7 +38,7 @@ class DummyController extends Controller
      */
     public function store(Request $request)
     {
-        $dummy = dummy::create($request->all());
+        $dummy = Dummy::create($request->all());
         $dummy = $dummy->refresh();
         return response($dummy,Res::HTTP_CREATED);
     }

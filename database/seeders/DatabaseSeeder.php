@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\dummy;
+use App\Models\Dummy;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        dummy::truncate();
+        Dummy::truncate();
 
-        dummy::factory(10)->create();
+        Dummy::factory(10)->create();
     }
 }
