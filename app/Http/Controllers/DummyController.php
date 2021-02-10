@@ -50,7 +50,7 @@ class DummyController extends Controller
      */
     public function show(dummy $dummy)
     {
-        return dummy::all();
+        return response($dummy,RES::HTTP_OK);
     }
 
     /**

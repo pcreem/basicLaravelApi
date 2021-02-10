@@ -10,5 +10,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("data",[DummyController::class,'show']);
 Route::apiResource('dummy',DummyController::class);
