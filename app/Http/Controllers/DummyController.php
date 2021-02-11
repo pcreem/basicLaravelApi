@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dummy;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as Res;
 
 class DummyController extends Controller
@@ -18,6 +19,16 @@ class DummyController extends Controller
     {
         $limit = $request->limit ?? 10;
         $query = Dummy::query();
+
+        $url = $request->url();
+        $queryParams = $request->query();
+        ksort($queryParams);
+        $queryString = http_build_query($queryParams);
+        $fullUrl = "{$url}?{$queryString}";
+
+        if(Cache::has($fullUrl)){
+            return Cache::get($fullUrl);
+        }
 
         if(isset($request->filters)){
             $filters = explode(',',$request->filters);         
@@ -44,7 +55,10 @@ class DummyController extends Controller
         $dummy = $query
         ->paginate($limit)
         ->appends($request->query());
-        return response($dummy, Res::HTTP_OK);
+
+        return Cache::remember($fullUrl,180, function () use ($dummy){
+            return response($dummy, Res::HTTP_OK);
+        });        
     }
 
     /**
