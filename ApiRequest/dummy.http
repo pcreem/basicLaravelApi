@@ -2,7 +2,7 @@ POST http://127.0.0.1:8000/api/dummy HTTP/1.1
 content-type:application/json
 
 {
-    "name":"henry"
+    "name":""
 }
 
 ###
@@ -26,5 +26,5 @@ GET http://127.0.0.1:8000/api/dummy
 content-type:application/json
 
 ###
-GET http://127.0.0.1:8000/api/dummy?sorts=name:asc,id:desc
+GET http://127.0.0.1:8000/api/dummy?sorts=name:asc,id:desc&filters=name:nn
 content-type:application/json

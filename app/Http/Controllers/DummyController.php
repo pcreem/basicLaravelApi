@@ -79,6 +79,10 @@ class DummyController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'name' => 'required|string|max:255'
+        ]);
+
         $dummy = Dummy::create($request->all());
         $dummy = $dummy->refresh();
         return response($dummy,Res::HTTP_CREATED);

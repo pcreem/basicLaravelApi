@@ -1,0 +1,30 @@
+POST http://127.0.0.1:8000/api/types HTTP/1.1
+content-type:application/json
+
+{
+    "name":"random"
+}
+
+###
+DELETE http://127.0.0.1:8000/api/types/3
+content-type:application/json
+
+###
+PATCH http://127.0.0.1:8000/api/types/2 HTTP/1.1
+content-type:application/json
+
+{
+    "name":"the modify one"
+}
+
+###
+GET http://127.0.0.1:8000/api/types/2 
+content-type:application/json
+
+###
+GET http://127.0.0.1:8000/api/types
+content-type:application/json
+
+###
+GET http://127.0.0.1:8000/api/types?sorts=name:asc,id:desc&filters=name:nn
+content-type:application/json
