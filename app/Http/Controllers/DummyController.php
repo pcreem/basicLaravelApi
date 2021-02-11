@@ -23,12 +23,25 @@ class DummyController extends Controller
             $filters = explode(',',$request->filters);         
             foreach ($filters as $key => $filter){
                 list($key,$value) = explode(':',$filter);
-                $query
-                ->where($key,'like',"%$value%");
+                $query->where($key,'like',"%$value%");
             }
         }
 
-        $dummy = $query->orderBy('id','desc')
+        if(isset($request->sorts)){
+            $sorts = explode(',',$request->sorts);         
+            foreach ($sorts as $key => $sort){
+                list($key,$value) = explode(':',$sort);
+                if($value == 'asc' or $value == 'desc'){
+                    $query->orderBy($key,$value);
+                }
+            }
+        }else{
+            $query->orderBy('id','desc');
+        }
+
+
+
+        $dummy = $query
         ->paginate($limit)
         ->appends($request->query());
         return response($dummy, Res::HTTP_OK);
