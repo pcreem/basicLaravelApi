@@ -14,10 +14,24 @@ class DummyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dummy = Dummy::get();
-        return response(['data' => $dummy], Res::HTTP_OK);
+        $limit = $request->limit ?? 10;
+        $query = Dummy::query();
+
+        if(isset($request->filters)){
+            $filters = explode(',',$request->filters);         
+            foreach ($filters as $key => $filter){
+                list($key,$value) = explode(':',$filter);
+                $query
+                ->where($key,'like',"%$value%");
+            }
+        }
+
+        $dummy = $query->orderBy('id','desc')
+        ->paginate($limit)
+        ->appends($request->query());
+        return response($dummy, Res::HTTP_OK);
     }
 
     /**
