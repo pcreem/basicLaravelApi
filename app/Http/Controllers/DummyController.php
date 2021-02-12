@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DummyCollection;
 use App\Models\Dummy;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as Res;
+use App\Http\Resources\DummyResource;
 
 class DummyController extends Controller
 {
@@ -18,7 +20,7 @@ class DummyController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit ?? 10;
-        $query = Dummy::query();
+        $query = Dummy::query()->with('type');
 
         $url = $request->url();
         $queryParams = $request->query();
@@ -57,7 +59,8 @@ class DummyController extends Controller
         ->appends($request->query());
 
         return Cache::remember($fullUrl,180, function () use ($dummy){
-            return response($dummy, Res::HTTP_OK);
+            // return response($dummy, Res::HTTP_OK);
+            return new DummyCollection($dummy);
         });        
     }
 
@@ -80,7 +83,8 @@ class DummyController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'typeId' => 'nullable|exists:types,id',
         ]);
 
         $dummy = Dummy::create($request->all());
@@ -96,7 +100,7 @@ class DummyController extends Controller
      */
     public function show(dummy $dummy)
     {
-        return response($dummy,RES::HTTP_OK);
+        return new DummyResource($dummy);
     }
 
     /**
@@ -119,6 +123,9 @@ class DummyController extends Controller
      */
     public function update(Request $request, dummy $dummy)
     {
+        $this->validate($request,[
+            'typeId' => 'nullable|exists:types,id',
+        ]);
         $dummy->update($request->all());
         return response($dummy,RES::HTTP_OK);
     }

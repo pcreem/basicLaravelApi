@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Type extends Model
 {
     use HasFactory;
+    public function dummies(){
+        return $this->hasMany('App\Models\Dummy','typeId','id');
+    }
 
     protected $fillable =[
         'name'

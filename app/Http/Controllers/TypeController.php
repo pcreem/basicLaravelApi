@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TypeCollection;
+use App\Http\Resources\TypeResource;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -16,11 +18,9 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = Type::get();
+        $types = Type::select('id','name')->get();
         
-        return response([
-            'data' => $types
-        ], Response::HTTP_OK);
+        return new TypeCollection($types);
     }
 
     /**
@@ -90,7 +90,7 @@ class TypeController extends Controller
 
         $type->update($request->all());
 
-        return response(['data' => $type],Response::HTTP_OK);
+        return new TypeResource($type);
     }
 
     /**

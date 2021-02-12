@@ -2,18 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Dummy;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Type;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DummyFactory extends Factory
+class TypeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Dummy::class;
+    protected $model = Type::class;
 
     /**
      * Define the model's default state.
@@ -23,8 +22,7 @@ class DummyFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'typeId' => Type::all()->random()->id,
+            'name' => $this->faker->unique()->name,
         ];
     }
 }
