@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+use Facade\FlareClient\Http\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Throwable;
+use Symfony\Component\HttpFoundation\Response as Res;
 
 class Handler extends ExceptionHandler
 {
@@ -36,5 +39,17 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()){
+            return response(
+                $exception->getMessage(),
+                Res::HTTP_UNAUTHORIZED
+            );
+        }else{
+            return redirect()->guest($exception->redirectTo() ?? route('login'));
+        }
     }
 }

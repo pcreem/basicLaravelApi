@@ -28,3 +28,13 @@ content-type:application/json
 ###
 GET http://127.0.0.1:8000/api/dummy?sorts=name:asc,id:desc&filters=name:nn
 content-type:application/json
+
+###
+POST http://127.0.0.1:8000/oauth/token HTTP/1.1
+content-type:application/x-www-form-urlencoded
+
+grant_type=password
+&client_id=
+&client_secret=
+&username=
+&password=
